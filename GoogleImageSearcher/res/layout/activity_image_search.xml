@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <EditText
+    <!-- <EditText
         android:id="@+id/etQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:onClick="onImageSearch"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/search_label" />
+        android:text="@string/search_label" /> -->
 
     <GridView
         android:id="@+id/gvResults"
@@ -33,13 +33,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/etQuery"
-        android:numColumns="3"
+        android:layout_alignParentTop="true"
+        android:clipToPadding="false"
         android:horizontalSpacing="15dp"
-        android:verticalSpacing="15dp"
+        android:numColumns="3"
         android:padding="15dp"
         android:scrollbarStyle="outsideOverlay"
-        android:clipToPadding="false" >
+        android:verticalSpacing="15dp" >
 
     </GridView>
 

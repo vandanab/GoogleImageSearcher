@@ -7,23 +7,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.codepath.vandanab.googleimagesearcher.R;
 import com.codepath.vandanab.googleimagesearcher.adapters.ImageResultsAdapter;
+import com.codepath.vandanab.googleimagesearcher.fragments.SearchFiltersDialog;
+import com.codepath.vandanab.googleimagesearcher.fragments.SearchFiltersDialog.SearchFiltersDialogListener;
 import com.codepath.vandanab.googleimagesearcher.listeners.EndlessScrollListener;
 import com.codepath.vandanab.googleimagesearcher.models.ImageResult;
 import com.codepath.vandanab.googleimagesearcher.models.SearchFilters;
@@ -31,14 +36,17 @@ import com.codepath.vandanab.googleimagesearcher.util.NetworkMonitor;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class ImageSearchActivity extends Activity {
+public class ImageSearchActivity extends FragmentActivity implements SearchFiltersDialogListener {
 	private static final int REQUEST_CODE_FILTERS = 10;
 
 	// views.
-	private EditText etQuery;
 	private GridView gvResults;
 
+	// Action bar items.
+	private SearchView searchView;
+
 	// data.
+	private String currentQuery;
 	private ArrayList<ImageResult> searchResults;
 	private ImageResultsAdapter searchResultsAdapter;
 	private SearchFilters searchFilters;
@@ -68,30 +76,11 @@ public class ImageSearchActivity extends Activity {
     		return;
     	}*/
 
-    	String query = etQuery.getText().toString();
-    	AsyncHttpClient client = new AsyncHttpClient();
-
-    	String searchUrl = constructUrl(query, offset);
-        client.get(searchUrl, new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers,
-					JSONObject response) {
-				JSONArray imageResultsJson = null;
-				try {
-					imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
-					searchResultsAdapter.addAll(ImageResult.fromJSONArray(imageResultsJson));
-					// no need to notify the adapter as we are changing the data directly on the adapter.
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				//Log.i("INFO", searchResults.toString());
-			}
-        });
+    	getSearchResults(currentQuery, offset, false);
     }
 
     private void setupViews() {
-    	etQuery = (EditText) findViewById(R.id.etQuery);
+    	//etQuery = (EditText) findViewById(R.id.etQuery);
     	gvResults = (GridView) findViewById(R.id.gvResults);
     	gvResults.setOnItemClickListener(new OnItemClickListener() {
 
@@ -116,6 +105,21 @@ public class ImageSearchActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu_search, menu);
+		MenuItem searchItem = (MenuItem) menu.findItem(R.id.miSearch);
+		searchView = (SearchView) searchItem.getActionView();
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				currentQuery = query;
+				getSearchResults(query, 0, true);
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				return false;
+			}
+		});
 		return true;
 	}
 
@@ -129,14 +133,20 @@ public class ImageSearchActivity extends Activity {
     	}
     }
 
-    private void setSearchFilters() {
+    /*private void setSearchFilters() {
 		// Go the advanced search filters activity to set filters.
     	Intent i = new Intent(this, SearchFiltersActivity.class);
     	if (searchFilters != null) {
     		i.putExtra("search_filters", searchFilters);
     	}
         startActivityForResult(i, REQUEST_CODE_FILTERS);
-	}
+	}*/
+    private void setSearchFilters() {
+    	FragmentManager fm = getSupportFragmentManager();
+    	SearchFiltersDialog searchFiltersDialog =
+    			SearchFiltersDialog.newInstance(searchFilters);
+    	searchFiltersDialog.show(fm, "fragment_search_filters");
+    }
 
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,7 +161,7 @@ public class ImageSearchActivity extends Activity {
 
     private String constructUrl(String query, int startIndex) {
     	String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-        		+ query + "&rsz=8";
+        		+ Uri.encode(query) + "&rsz=8";
         if (searchFilters != null) {
         	if (!"any".equals(searchFilters.imageSize)) {
         		searchUrl += "&imgsz=" + searchFilters.imageSize;
@@ -173,15 +183,15 @@ public class ImageSearchActivity extends Activity {
     }
 
 	// Fired when search button is clicked.
-    public void onImageSearch(View v) {
-    	/*if (!networkCheck()) {
-    		return;
-    	}*/
+    /*public void onImageSearch(View v) {
+    	currentQuery = etQuery.getText().toString();
+    	getSearchResults(currentQuery, 0, true);
+    }*/
 
-    	String query = etQuery.getText().toString();
+    private void getSearchResults(String query, int offset, final boolean clearAdapter) {
     	AsyncHttpClient client = new AsyncHttpClient();
 
-    	String searchUrl = constructUrl(query, 0);
+    	String searchUrl = constructUrl(query, offset);
         client.get(searchUrl, new JsonHttpResponseHandler() {
 
 			@Override
@@ -190,7 +200,9 @@ public class ImageSearchActivity extends Activity {
 				JSONArray imageResultsJson = null;
 				try {
 					imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
-					searchResultsAdapter.clear(); // in cases when its a new search.
+					if (clearAdapter) {
+						searchResultsAdapter.clear(); // in cases when its a new search.
+					}
 					searchResultsAdapter.addAll(ImageResult.fromJSONArray(imageResultsJson));
 					// no need to notify the adapter as we are changing the data directly on the adapter.
 				} catch (JSONException e) {
@@ -213,4 +225,10 @@ public class ImageSearchActivity extends Activity {
     	}
     	return false;
     }
+
+	@Override
+	public void onSaveSearchFiltersDialog(SearchFilters searchFilters) {
+		this.searchFilters = searchFilters;
+		//Toast.makeText(this, searchFilters.imageSize, Toast.LENGTH_SHORT).show();
+	}
 }

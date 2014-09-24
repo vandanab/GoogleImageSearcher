@@ -26,7 +26,7 @@ public class ImageResult implements Serializable {
 	}
 
 	public static ArrayList<ImageResult> fromJSONArray(JSONArray resultsJsonArray) {
-		Log.i("INFO", "Search Results: " + resultsJsonArray);
+		//Log.i("INFO", "Search Results: " + resultsJsonArray);
 		ArrayList<ImageResult> results = new ArrayList<ImageResult>();
 		for (int i = 0; i < resultsJsonArray.length(); i++) {
 			try {

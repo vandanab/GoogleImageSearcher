@@ -8,14 +8,14 @@
         android:id="@+id/ivImageDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="600dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:maxWidth="600dp"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
