@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.codepath.vandanab.googleimagesearcher"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/image_search_activity_label"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".activities.ImageSearchActivity"
+            android:label="@string/image_search_activity_label" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.ImageDetailsActivity"
+            android:label="@string/image_details_activity_label"
+            android:parentActivityName=".activities.ImageSearchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codepath.vandanab.googleimagesearcher.activities.ImageSearchActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SearchFiltersActivity"
+            android:label="@string/title_activity_search_filters"
+            android:parentActivityName=".activities.ImageSearchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codepath.vandanab.googleimagesearcher.activities.ImageSearchActivity" />
+        </activity>
+    </application>
+
+</manifest>

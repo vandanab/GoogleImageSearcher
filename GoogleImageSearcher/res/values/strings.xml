@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GoogleImageSearcher</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="image_search_activity_label">Google Image Searcher</string>
+    <string name="search_prompt">Enter search query</string>
+    <string name="search_label">Search</string>
+    <string name="image_title_label">Image Title</string>
+    <string name="image_details_activity_label">Image Details</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_search_filters">Advanced Filters</string>
+    <string name="search_options_label">Advanced Search Options</string>
+    <string name="image_size_label">Image Size</string>
+    <string name="color_filter_label">Color Filter</string>
+    <string name="image_type_label">Image Type</string>
+    <string name="site_filter_label">Site Filter</string>
+    <string name="save_button_label">Save</string>
+
+    <string-array name="image_size_options">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+        <item>xlarge</item>
+        <item>any</item>
+    </string-array>
+    <string-array name="color_filter_options">
+        <item>black</item>
+        <item>blue</item>
+        <item>brown</item>
+        <item>gray</item>
+        <item>green</item>
+        <item>orange</item>
+        <item>pink</item>
+        <item>purple</item>
+        <item>red</item>
+        <item>teal</item>
+        <item>white</item>
+        <item>yellow</item>
+        <item>any</item>
+    </string-array>
+    <string-array name="image_type_options">
+        <item>face</item>
+        <item>photo</item>
+        <item>clipart</item>
+        <item>lineart</item>
+        <item>any</item>
+    </string-array>
+
+    <string name="title_activity_search_options">Search Options</string>
+
+</resources>

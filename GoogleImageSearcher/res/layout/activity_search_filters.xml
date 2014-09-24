@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context="com.codepath.vandanab.googleimagesearcher.activities.SearchFiltersActivity" >
+
+    <TextView
+        android:id="@+id/tvSearchOptionsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/search_options_label"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvImageSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvSearchOptionsLabel"
+        android:layout_marginTop="15dp"
+        android:text="@string/image_size_label" />
+
+    <Spinner
+        android:id="@+id/spnrImageSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvImageSize"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvSearchOptionsLabel"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvImageSize" />
+
+    <TextView
+        android:id="@+id/tvColorFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvImageSize"
+        android:layout_marginTop="15dp"
+        android:text="@string/color_filter_label" />
+
+    <Spinner
+        android:id="@+id/spnrColorFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvColorFilter"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvImageSize"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvColorFilter" />
+
+	<TextView
+        android:id="@+id/tvImageType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvColorFilter"
+        android:layout_marginTop="15dp"
+        android:text="@string/image_type_label" />
+
+    <Spinner
+        android:id="@+id/spnrImageType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvImageType"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvColorFilter"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvImageType" />
+
+    <TextView
+        android:id="@+id/tvSiteFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvImageType"
+        android:layout_marginTop="15dp"
+        android:text="@string/site_filter_label" />
+
+    <EditText
+        android:id="@+id/etSiteFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvSiteFilter"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvImageType"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvSiteFilter"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnSaveFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etSiteFilter"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/save_button_label"
+        android:onClick="onSave" />
+
+</RelativeLayout>
