@@ -3,7 +3,7 @@ GoogleImageSearcher
 
 A cool android app to search images. In the background uses the Google Image Search api.
 
-Time spent: 10 hours spent in total
+Time spent: 12 hours spent in total
 
 Completed user stories:
 
