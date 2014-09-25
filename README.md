@@ -25,14 +25,8 @@ Optional:
 * User can share an image to their friends or email it to themselves
 * Replace Filter Settings Activity with a lightweight modal overlay
 
-Todo:
-* Improve the user interface and experiment with image assets and/or styling and coloring
-* Bonus: Use the StaggeredGridView to display improve the grid of image results
-* Bonus: User can zoom or pan images displayed in full-screen detail view
-
 Notes:
 Spent quite some time on the spinner and getting the search filters layout correct and infinite scrolling. 
 
 Walkthrough of all user stories:
-
-
+![Video Walkthrough](google_image_searcher_2.gif)
