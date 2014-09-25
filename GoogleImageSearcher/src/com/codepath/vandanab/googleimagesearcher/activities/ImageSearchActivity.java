@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -32,7 +33,6 @@ import com.codepath.vandanab.googleimagesearcher.fragments.SearchFiltersDialog.S
 import com.codepath.vandanab.googleimagesearcher.listeners.EndlessScrollListener;
 import com.codepath.vandanab.googleimagesearcher.models.ImageResult;
 import com.codepath.vandanab.googleimagesearcher.models.SearchFilters;
-import com.codepath.vandanab.googleimagesearcher.util.NetworkMonitor;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -72,10 +72,6 @@ public class ImageSearchActivity extends FragmentActivity implements SearchFilte
     }
 
     private void loadMoreDataFromApi(int offset) {
-    	/*if (!networkCheck()) {
-    		return;
-    	}*/
-
     	getSearchResults(currentQuery, offset, false);
     }
 
@@ -141,6 +137,8 @@ public class ImageSearchActivity extends FragmentActivity implements SearchFilte
     	}
         startActivityForResult(i, REQUEST_CODE_FILTERS);
 	}*/
+
+    // Using dialog fragment.
     private void setSearchFilters() {
     	FragmentManager fm = getSupportFragmentManager();
     	SearchFiltersDialog searchFiltersDialog =
@@ -189,6 +187,11 @@ public class ImageSearchActivity extends FragmentActivity implements SearchFilte
     }*/
 
     private void getSearchResults(String query, int offset, final boolean clearAdapter) {
+    	if (!isNetworkAvailable()) {
+    		Toast.makeText(this, "Network not available!", Toast.LENGTH_SHORT).show();
+    		return;
+    	}
+
     	AsyncHttpClient client = new AsyncHttpClient();
 
     	String searchUrl = constructUrl(query, offset);
@@ -212,19 +215,12 @@ public class ImageSearchActivity extends FragmentActivity implements SearchFilte
         });
     }
 
-    private boolean networkCheck() {
+    private boolean isNetworkAvailable() {
     	ConnectivityManager connectivityManager = 
     			(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    	NetworkMonitor.Status status = NetworkMonitor.canSendNetworkRequest(connectivityManager);
-    	if (status == NetworkMonitor.Status.OK) {
-    		return true;
-    	} else if (status == NetworkMonitor.Status.NOT_AVAILABLE) {
-    		Toast.makeText(this, "Network not available!", Toast.LENGTH_SHORT).show();
-    	} else if (status == NetworkMonitor.Status.NOT_CONNECTED) {
-    		Toast.makeText(this, "Cannot connect to network", Toast.LENGTH_SHORT).show();
-    	}
-    	return false;
-    }
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	}
 
 	@Override
 	public void onSaveSearchFiltersDialog(SearchFilters searchFilters) {
