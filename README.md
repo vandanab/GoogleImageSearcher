@@ -29,4 +29,5 @@ Notes:
 Spent quite some time on the spinner and getting the search filters layout correct and infinite scrolling. 
 
 Walkthrough of all user stories:
+
 ![Video Walkthrough](google_image_searcher_2.gif)
